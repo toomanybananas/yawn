@@ -118,6 +118,13 @@ void tile(Display* disp)
 	XMoveResizeWindow(disp, currentdesk->clients[0]->win, 0, 0, master_size-2, h-2);
 	for(int i = 1; i < currentdesk->clients.size(); i++)
 	{
+		XWindowAttributes ret;
+		XGetWindowAttributes(disp, currentdesk->clients[i]->win, &ret);
+		if(ret.override_redirect)
+		{
+			//Window should be ignored
+			continue;
+		}
 		XMoveResizeWindow(disp, currentdesk->clients[i]->win, master_size, y, w-master_size-2, (h/(currentdesk->clients.size()-1)-2));
 		y += h/(currentdesk->clients.size()-1);
 	}
