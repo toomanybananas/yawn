@@ -48,7 +48,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = wm$(EXEEXT)
+bin_PROGRAMS = yawn$(EXEEXT)
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
@@ -66,9 +66,9 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_wm_OBJECTS = main.$(OBJEXT)
-wm_OBJECTS = $(am_wm_OBJECTS)
-wm_LDADD = $(LDADD)
+am_yawn_OBJECTS = main.$(OBJEXT)
+yawn_OBJECTS = $(am_yawn_OBJECTS)
+yawn_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -78,8 +78,8 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(wm_SOURCES)
-DIST_SOURCES = $(wm_SOURCES)
+SOURCES = $(yawn_SOURCES)
+DIST_SOURCES = $(yawn_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -196,7 +196,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-wm_SOURCES = main.cpp
+yawn_SOURCES = main.cpp
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -291,9 +291,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-wm$(EXEEXT): $(wm_OBJECTS) $(wm_DEPENDENCIES) $(EXTRA_wm_DEPENDENCIES) 
-	@rm -f wm$(EXEEXT)
-	$(CXXLINK) $(wm_OBJECTS) $(wm_LDADD) $(LIBS)
+yawn$(EXEEXT): $(yawn_OBJECTS) $(yawn_DEPENDENCIES) $(EXTRA_yawn_DEPENDENCIES) 
+	@rm -f yawn$(EXEEXT)
+	$(CXXLINK) $(yawn_OBJECTS) $(yawn_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)

@@ -1,2 +1,2 @@
-bin_PROGRAMS = wm
-wm_SOURCES = main.cpp
+bin_PROGRAMS = yawn
+yawn_SOURCES = main.cpp

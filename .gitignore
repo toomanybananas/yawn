@@ -1,0 +1,8 @@
+.deps
+*~
+Makefile
+autom4te.cache
+config.h
+config.log
+*.o
+yawn
