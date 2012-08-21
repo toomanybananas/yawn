@@ -19,7 +19,7 @@ class Desk
 };
 Desk* currentdesk;
 Desk desks[10];
-void Add_Window(Window w, Desk* desk)
+void Add_Window(Display* disp, Window w, Desk* desk)
 {
 	std::cout << "Adding window" << std::endl;
 	Client* c;
@@ -79,7 +79,7 @@ void MapRequestCB(Display* disp, XEvent* e)
 {
 	std::cout << "Getting a map event" << std::endl;
 	XMapRequestEvent* ev = &e->xmaprequest;
-	Add_Window(ev->window, currentdesk);
+	Add_Window(disp, ev->window, currentdesk);
 	XMapWindow(disp, ev->window);
 	tile(disp);
 }
@@ -119,13 +119,6 @@ void tile(Display* disp)
 	XMoveResizeWindow(disp, currentdesk->clients[0]->win, 0, 0, master_size-2, h-2);
 	for(int i = 1; i < currentdesk->clients.size(); i++)
 	{
-		XWindowAttributes ret;
-		XGetWindowAttributes(disp, currentdesk->clients[i]->win, &ret);
-		if(ret.override_redirect)
-		{
-			//Window should be ignored
-			continue;
-		}
 		XMoveResizeWindow(disp, currentdesk->clients[i]->win, master_size, y, w-master_size-2, (h/(currentdesk->clients.size()-1)-2));
 		y += h/(currentdesk->clients.size()-1);
 	}
@@ -168,9 +161,7 @@ int main()
 	w = XDisplayWidth(disp, screen);
 	h = XDisplayHeight(disp, screen);
 	master_size = w * 0.5; //master window size
-	Desk* d1 = new Desk;
-	Desk* d2 = new Desk;
-	currentdesk = d1;
+	currentdesk = &desks[0];
 
 	for(int i = 0; i < keys.size(); i++)
 	{
