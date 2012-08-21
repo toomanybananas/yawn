@@ -6,3 +6,5 @@ config.h
 config.log
 *.o
 yawn
+PKGBUILD
+pkg

@@ -18,6 +18,7 @@ class Desk
 		Client* top;
 };
 Desk* currentdesk;
+Desk desks[10];
 void Add_Window(Window w, Desk* desk)
 {
 	std::cout << "Adding window" << std::endl;
@@ -143,8 +144,17 @@ int main()
 	//todo: read keybindings from a file and then load them all. For now, justload some defaults
 	keys.push_back("t"); //for raising a terminal
 	keys.push_back("e"); //for exiting
-	keys.push_back("s"); //for switching desktops
 	keys.push_back("r"); //dmenu
+	keys.push_back("1");
+	keys.push_back("2");
+	keys.push_back("3");
+	keys.push_back("4");
+	keys.push_back("5");
+	keys.push_back("6");
+	keys.push_back("7");
+	keys.push_back("8");
+	keys.push_back("9");
+	keys.push_back("0");
 
 	if(!(disp = XOpenDisplay(0x0)))
 	{
@@ -190,21 +200,26 @@ int main()
 		{
 			system("dmenu_run");
 		}
-		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("s"))
-		{
-			if(currentdesk == d1)
-			{
-				//switch to d2
-				ChangeDesk(disp, d2);
-				std::cout << "Changing to d2" << std::endl;
-			}
-			else
-			{
-				//switch to d1
-				ChangeDesk(disp, d1);
-				std::cout << "Changing to d1" << std::endl;
-			}
-		}
+		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("1"))
+			ChangeDesk(disp, &desks[0]);
+		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("2"))
+			ChangeDesk(disp, &desks[1]);
+		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("3"))
+			ChangeDesk(disp, &desks[2]);
+		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("4"))
+			ChangeDesk(disp, &desks[3]);
+		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("5"))
+			ChangeDesk(disp, &desks[4]);
+		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("6"))
+			ChangeDesk(disp, &desks[5]);
+		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("7"))
+			ChangeDesk(disp, &desks[6]);
+		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("8"))
+			ChangeDesk(disp, &desks[7]);
+		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("9"))
+			ChangeDesk(disp, &desks[8]);
+		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("0"))
+			ChangeDesk(disp, &desks[9]);
 		if(ev.type == ConfigureRequest)
 		{
 			ConfigureRequestCB(disp, &ev);
