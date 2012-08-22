@@ -18,6 +18,7 @@ class Desk
 		std::vector<Client*> clients;
 		Client* top;
 };
+ 
 Desk* currentdesk;
 Desk desks[10];
 void Add_Window(Display* disp, Window w, Desk* desk)
@@ -104,7 +105,15 @@ void DestroyNotifyCB(Display* disp, XEvent* e)
 int w,h;
 int screen;
 int master_size;
-
+unsigned int focus;
+unsigned int unfocus;
+unsigned long GetColor(Display* disp, std::string color)
+{
+	XColor c;
+	Colormap map = DefaultColormap(disp, screen);
+	if(!XAllocNamedColor(disp, map, color.c_str(), &c, &c))
+		std::cout << "Error: could not alloc color!\n";
+	return c.pixel;
 
 void tile(Display* disp)
 {
@@ -150,6 +159,9 @@ int main()
 	h = XDisplayHeight(disp, screen);
 	master_size = w * 0.5; //master window size
 	currentdesk = &desks[0];
+
+	focus = GetColor("rgb:bc/57/66");
+	unfocus = GetColor("rgb:88/88/88");
 
 	for(int i = 0; i < keys.size(); i++)
 	{
