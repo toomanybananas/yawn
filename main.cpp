@@ -3,8 +3,9 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
-
+#include <common.hpp>
 #define StringToKeysym(a) XKeysymToKeycode(disp, XStringToKeysym(a))
+
 void tile(Display* disp);
 class Client
 {
@@ -133,21 +134,8 @@ int main()
 	XEvent ev;
 
 	//put any keys we want to listen to here
-	std::vector<std::string> keys;
+	std::vector<std::string> keys = initlist<std::string>("t")("e")("r")("1")("2")("3")("4")("5")("6")("7")("8")("9")("0");
 	//todo: read keybindings from a file and then load them all. For now, justload some defaults
-	keys.push_back("t"); //for raising a terminal
-	keys.push_back("e"); //for exiting
-	keys.push_back("r"); //dmenu
-	keys.push_back("1");
-	keys.push_back("2");
-	keys.push_back("3");
-	keys.push_back("4");
-	keys.push_back("5");
-	keys.push_back("6");
-	keys.push_back("7");
-	keys.push_back("8");
-	keys.push_back("9");
-	keys.push_back("0");
 
 	if(!(disp = XOpenDisplay(0x0)))
 	{
@@ -177,20 +165,13 @@ int main()
 	{
 		XNextEvent(disp, &ev);
 
-		//check to see if we pressed t
+		
 		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("t"))
-		{
-			//open xterm
 			system("xterm &");
-		}
 		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("e"))
-		{
 			run = false;
-		}
 		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("r"))
-		{
 			system("dmenu_run");
-		}
 		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("1"))
 			ChangeDesk(disp, &desks[0]);
 		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("2"))
@@ -212,17 +193,11 @@ int main()
 		if(ev.type == KeyPress && ev.xkey.keycode == StringToKeysym("0"))
 			ChangeDesk(disp, &desks[9]);
 		if(ev.type == ConfigureRequest)
-		{
 			ConfigureRequestCB(disp, &ev);
-		}
 		if(ev.type == MapRequest)
-		{
 			MapRequestCB(disp, &ev);
-		}
 		if(ev.type == DestroyNotify)
-		{
 			DestroyNotifyCB(disp, &ev);
-		}
 		//todo: parse some buttons or something
 	}
 	//Free everything
