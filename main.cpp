@@ -81,6 +81,11 @@ void MapRequestCB(Display* disp, XEvent* e)
 {
 	std::cout << "Getting a map event" << std::endl;
 	XMapRequestEvent* ev = &e->xmaprequest;
+	XWindowAttributes wa;
+	if(!XGetWindowAttributes(disp, ev->window, &wa))
+		return;
+	if(wa.override_redirect)
+		return;
 	Add_Window(disp, ev->window, currentdesk);
 	XMapWindow(disp, ev->window);
 	tile(disp);
@@ -114,6 +119,7 @@ unsigned long GetColor(Display* disp, std::string color)
 	if(!XAllocNamedColor(disp, map, color.c_str(), &c, &c))
 		std::cout << "Error: could not alloc color!\n";
 	return c.pixel;
+}
 
 void tile(Display* disp)
 {
@@ -160,8 +166,8 @@ int main()
 	master_size = w * 0.5; //master window size
 	currentdesk = &desks[0];
 
-	focus = GetColor("rgb:bc/57/66");
-	unfocus = GetColor("rgb:88/88/88");
+	focus = GetColor(disp, "rgb:bc/57/66");
+	unfocus = GetColor(disp, "rgb:88/88/88");
 
 	for(int i = 0; i < keys.size(); i++)
 	{
